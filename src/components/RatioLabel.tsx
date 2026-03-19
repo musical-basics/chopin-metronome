@@ -1,10 +1,13 @@
-import { DEFAULT_LEFT_RATIO, DEFAULT_RIGHT_RATIO } from '../lib/constants';
+import { useMetronomeStore } from '../store/metronomeStore';
 
 export default function RatioLabel() {
+  const leftRatio = useMetronomeStore((s) => s.leftRatio);
+  const rightRatio = useMetronomeStore((s) => s.rightRatio);
+
   return (
     <div className="flex flex-col items-center gap-1">
       <span className="font-display text-2xl text-text-primary font-light tracking-wider">
-        {DEFAULT_LEFT_RATIO} <span className="text-gold mx-1">:</span> {DEFAULT_RIGHT_RATIO}
+        {leftRatio} <span className="text-gold mx-1">:</span> {rightRatio}
       </span>
       <span className="label-text">Polyrhythm</span>
     </div>

@@ -7,9 +7,23 @@ interface HandColumnProps {
   sublabel: string;
   ratio: number;
   isMuted: boolean;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onSetRatio: (ratio: number) => void;
+  onToggleMute: () => void;
 }
 
-export default function HandColumn({ side, label, sublabel, ratio, isMuted }: HandColumnProps) {
+export default function HandColumn({
+  side,
+  label,
+  sublabel,
+  ratio,
+  isMuted,
+  onIncrement,
+  onDecrement,
+  onSetRatio,
+  onToggleMute,
+}: HandColumnProps) {
   const isLeft = side === 'left';
 
   return (
@@ -20,7 +34,7 @@ export default function HandColumn({ side, label, sublabel, ratio, isMuted }: Ha
         <span className="text-xs text-text-secondary">{sublabel}</span>
       </div>
 
-      {/* Pulsing Orb (static in Phase 1 — no animation) */}
+      {/* Pulsing Orb (static in Phase 1–2 — animation added in Phase 5) */}
       <div
         className={`w-24 h-24 rounded-orb flex items-center justify-center
                     ${isMuted
@@ -44,6 +58,7 @@ export default function HandColumn({ side, label, sublabel, ratio, isMuted }: Ha
       {/* Ratio selector */}
       <div className="flex items-center gap-3">
         <button
+          onClick={onDecrement}
           className="w-8 h-8 rounded-full border border-border flex items-center justify-center
                      text-text-secondary hover:border-gold hover:text-gold transition-colors"
           aria-label={`Decrease ${label} ratio`}
@@ -54,7 +69,7 @@ export default function HandColumn({ side, label, sublabel, ratio, isMuted }: Ha
         <input
           type="number"
           value={ratio}
-          readOnly
+          onChange={(e) => onSetRatio(Number(e.target.value))}
           min={MIN_RATIO}
           max={MAX_RATIO}
           className="bg-transparent text-ratio-display text-text-primary text-center w-16
@@ -62,6 +77,7 @@ export default function HandColumn({ side, label, sublabel, ratio, isMuted }: Ha
         />
 
         <button
+          onClick={onIncrement}
           className="w-8 h-8 rounded-full border border-border flex items-center justify-center
                      text-text-secondary hover:border-gold hover:text-gold transition-colors"
           aria-label={`Increase ${label} ratio`}
@@ -72,6 +88,7 @@ export default function HandColumn({ side, label, sublabel, ratio, isMuted }: Ha
 
       {/* Mute toggle */}
       <button
+        onClick={onToggleMute}
         className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors
                     ${isMuted
                       ? 'bg-surface-light text-muted border border-border'

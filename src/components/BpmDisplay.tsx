@@ -1,8 +1,12 @@
 import { Minus, Plus } from 'lucide-react';
-import { DEFAULT_BPM, MIN_BPM, MAX_BPM } from '../lib/constants';
+import { useMetronomeStore } from '../store/metronomeStore';
+import { MIN_BPM, MAX_BPM } from '../lib/constants';
 
 export default function BpmDisplay() {
-  const bpm = DEFAULT_BPM;
+  const masterBpm = useMetronomeStore((s) => s.masterBpm);
+  const setMasterBpm = useMetronomeStore((s) => s.setMasterBpm);
+  const incrementBpm = useMetronomeStore((s) => s.incrementBpm);
+  const decrementBpm = useMetronomeStore((s) => s.decrementBpm);
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -12,6 +16,7 @@ export default function BpmDisplay() {
       {/* BPM number + stepper buttons */}
       <div className="flex items-center gap-4">
         <button
+          onClick={decrementBpm}
           className="w-10 h-10 rounded-full border border-border flex items-center justify-center
                      text-text-secondary hover:border-gold hover:text-gold transition-colors"
           aria-label="Decrease BPM"
@@ -22,8 +27,8 @@ export default function BpmDisplay() {
         <div className="flex items-baseline gap-1">
           <input
             type="number"
-            value={bpm}
-            readOnly
+            value={masterBpm}
+            onChange={(e) => setMasterBpm(Number(e.target.value))}
             className="bg-transparent text-bpm-display text-text-primary text-center w-36
                        font-display outline-none caret-gold"
             min={MIN_BPM}
@@ -33,6 +38,7 @@ export default function BpmDisplay() {
         </div>
 
         <button
+          onClick={incrementBpm}
           className="w-10 h-10 rounded-full border border-border flex items-center justify-center
                      text-text-secondary hover:border-gold hover:text-gold transition-colors"
           aria-label="Increase BPM"
@@ -46,8 +52,8 @@ export default function BpmDisplay() {
         type="range"
         min={MIN_BPM}
         max={MAX_BPM}
-        value={bpm}
-        readOnly
+        value={masterBpm}
+        onChange={(e) => setMasterBpm(Number(e.target.value))}
         className="w-72 h-1 bg-border rounded-full appearance-none cursor-pointer
                    [&::-webkit-slider-thumb]:appearance-none
                    [&::-webkit-slider-thumb]:w-4

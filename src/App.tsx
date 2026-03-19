@@ -3,9 +3,22 @@ import HandColumn from './components/HandColumn';
 import PlayButton from './components/PlayButton';
 import SwapButton from './components/SwapButton';
 import RatioLabel from './components/RatioLabel';
-import { DEFAULT_LEFT_RATIO, DEFAULT_RIGHT_RATIO } from './lib/constants';
+import { useMetronomeStore } from './store/metronomeStore';
 
 export default function App() {
+  const leftRatio = useMetronomeStore((s) => s.leftRatio);
+  const rightRatio = useMetronomeStore((s) => s.rightRatio);
+  const leftMuted = useMetronomeStore((s) => s.leftMuted);
+  const rightMuted = useMetronomeStore((s) => s.rightMuted);
+  const setLeftRatio = useMetronomeStore((s) => s.setLeftRatio);
+  const setRightRatio = useMetronomeStore((s) => s.setRightRatio);
+  const incrementLeftRatio = useMetronomeStore((s) => s.incrementLeftRatio);
+  const decrementLeftRatio = useMetronomeStore((s) => s.decrementLeftRatio);
+  const incrementRightRatio = useMetronomeStore((s) => s.incrementRightRatio);
+  const decrementRightRatio = useMetronomeStore((s) => s.decrementRightRatio);
+  const toggleLeftMute = useMetronomeStore((s) => s.toggleLeftMute);
+  const toggleRightMute = useMetronomeStore((s) => s.toggleRightMute);
+
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-12">
       {/* ── Header ── */}
@@ -28,8 +41,12 @@ export default function App() {
           side="left"
           label="Left Hand"
           sublabel="Base"
-          ratio={DEFAULT_LEFT_RATIO}
-          isMuted={false}
+          ratio={leftRatio}
+          isMuted={leftMuted}
+          onIncrement={incrementLeftRatio}
+          onDecrement={decrementLeftRatio}
+          onSetRatio={setLeftRatio}
+          onToggleMute={toggleLeftMute}
         />
 
         {/* Center Controls */}
@@ -44,8 +61,12 @@ export default function App() {
           side="right"
           label="Right Hand"
           sublabel="Treble"
-          ratio={DEFAULT_RIGHT_RATIO}
-          isMuted={false}
+          ratio={rightRatio}
+          isMuted={rightMuted}
+          onIncrement={incrementRightRatio}
+          onDecrement={decrementRightRatio}
+          onSetRatio={setRightRatio}
+          onToggleMute={toggleRightMute}
         />
       </section>
 
