@@ -10,18 +10,37 @@ interface PulsingOrbProps {
 export default function PulsingOrb({ side, isMuted, isPulsing, isAccent }: PulsingOrbProps) {
   const isLeft = side === 'left';
 
-  // Base colors
+  // 3 distinct colors:
+  // Left = warm amber (#E8924C)
+  // Right = cool blue (#5BA4E8)
+  // Accent "The One" = bright gold (#D4A853)
+  const colors = isLeft
+    ? {
+        outerBg: 'bg-left/10',
+        outerBorder: 'border-left/30',
+        innerBg: 'bg-left/40',
+        pulseGlow: 'rgba(232, 146, 76, 0.4)',
+        accentGlow: 'rgba(212, 168, 83, 0.6)',
+        pulseColor: 'rgba(232, 146, 76, 0.8)',
+        accentColor: 'rgba(212, 168, 83, 0.95)',
+      }
+    : {
+        outerBg: 'bg-right/10',
+        outerBorder: 'border-right/30',
+        innerBg: 'bg-right/40',
+        pulseGlow: 'rgba(91, 164, 232, 0.4)',
+        accentGlow: 'rgba(212, 168, 83, 0.6)',
+        pulseColor: 'rgba(91, 164, 232, 0.8)',
+        accentColor: 'rgba(212, 168, 83, 0.95)',
+      };
+
   const outerIdle = isMuted
     ? 'bg-surface-light border border-border'
-    : isLeft
-      ? 'bg-left/10 border border-left/30'
-      : 'bg-right/10 border border-right/30';
+    : `${colors.outerBg} border ${colors.outerBorder}`;
 
   const innerIdle = isMuted
     ? 'bg-muted/30'
-    : isLeft
-      ? 'bg-left/40'
-      : 'bg-right/40';
+    : colors.innerBg;
 
   return (
     <div className="relative w-24 h-24 flex items-center justify-center">
@@ -33,11 +52,9 @@ export default function PulsingOrb({ side, isMuted, isPulsing, isAccent }: Pulsi
           opacity: isPulsing ? 1 : 0.7,
           boxShadow: isPulsing
             ? isAccent
-              ? '0 0 60px rgba(232, 192, 104, 0.6)'
-              : isLeft
-                ? '0 0 40px rgba(212, 168, 83, 0.4)'
-                : '0 0 40px rgba(232, 192, 104, 0.4)'
-            : '0 0 0px rgba(212, 168, 83, 0)',
+              ? `0 0 60px ${colors.accentGlow}`
+              : `0 0 40px ${colors.pulseGlow}`
+            : '0 0 0px rgba(0, 0, 0, 0)',
         }}
         transition={{
           duration: isPulsing ? 0.05 : 0.15,
@@ -53,10 +70,8 @@ export default function PulsingOrb({ side, isMuted, isPulsing, isAccent }: Pulsi
           opacity: isPulsing ? 1 : 0.6,
           backgroundColor: isPulsing
             ? isAccent
-              ? 'rgba(232, 192, 104, 0.9)'
-              : isLeft
-                ? 'rgba(212, 168, 83, 0.8)'
-                : 'rgba(232, 192, 104, 0.8)'
+              ? colors.accentColor
+              : colors.pulseColor
             : undefined,
         }}
         transition={{

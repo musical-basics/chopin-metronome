@@ -17,16 +17,16 @@ export default {
           dim: '#B8923F',
           bright: '#E8C068',
         },
-        // Hand-specific colors
+        // Hand-specific colors — 3 distinct colors
         left: {
-          DEFAULT: '#D4A853',     // Gold for Left Hand (Base)
-          dim: '#B8923F',
-          glow: 'rgba(212, 168, 83, 0.3)',
+          DEFAULT: '#E8924C',     // Warm amber for Left Hand (Base)
+          dim: '#C97A3A',
+          glow: 'rgba(232, 146, 76, 0.3)',
         },
         right: {
-          DEFAULT: '#E8C068',     // Bright gold for Right Hand (Treble)
-          dim: '#D4A853',
-          glow: 'rgba(232, 192, 104, 0.3)',
+          DEFAULT: '#5BA4E8',     // Cool blue for Right Hand (Treble)
+          dim: '#4A8AC8',
+          glow: 'rgba(91, 164, 232, 0.3)',
         },
         muted: '#6B6B6B',
         'text-primary': '#FAFAF5',

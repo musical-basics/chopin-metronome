@@ -160,9 +160,14 @@ function scheduler(): void {
 
   const currentTime = audioContext.currentTime;
 
+  // Snapshot beat counters BEFORE scheduling either hand.
+  // This ensures both loops see the same state when detecting "The One".
+  const leftBeatSnapshot = currentBeatLeft;
+  const rightBeatSnapshot = currentBeatRight;
+
   // Schedule Left Hand notes
   while (nextNoteTimeLeft < currentTime + SCHEDULE_AHEAD_TIME) {
-    const isAccent = currentBeatLeft === 0 && currentBeatRight === 0;
+    const isAccent = currentBeatLeft === 0 && rightBeatSnapshot === 0;
     playClick(nextNoteTimeLeft, 'left', isAccent);
     nextNoteTimeLeft += getInterval('left');
     currentBeatLeft = (currentBeatLeft + 1) % state.leftRatio;
@@ -170,7 +175,7 @@ function scheduler(): void {
 
   // Schedule Right Hand notes
   while (nextNoteTimeRight < currentTime + SCHEDULE_AHEAD_TIME) {
-    const isAccent = currentBeatRight === 0 && currentBeatLeft === 0;
+    const isAccent = currentBeatRight === 0 && leftBeatSnapshot === 0;
     playClick(nextNoteTimeRight, 'right', isAccent);
     nextNoteTimeRight += getInterval('right');
     currentBeatRight = (currentBeatRight + 1) % state.rightRatio;
