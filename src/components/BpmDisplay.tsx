@@ -16,6 +16,7 @@ export default function BpmDisplay() {
       {/* BPM number + stepper buttons */}
       <div className="flex items-center gap-4">
         <button
+          id="bpm-decrement"
           onClick={decrementBpm}
           className="w-10 h-10 rounded-full border border-border flex items-center justify-center
                      text-text-secondary hover:border-gold hover:text-gold transition-colors"
@@ -26,6 +27,7 @@ export default function BpmDisplay() {
 
         <div className="flex items-baseline gap-1">
           <input
+            id="bpm-input"
             type="number"
             value={masterBpm}
             onChange={(e) => setMasterBpm(Number(e.target.value))}
@@ -38,6 +40,7 @@ export default function BpmDisplay() {
         </div>
 
         <button
+          id="bpm-increment"
           onClick={incrementBpm}
           className="w-10 h-10 rounded-full border border-border flex items-center justify-center
                      text-text-secondary hover:border-gold hover:text-gold transition-colors"
@@ -49,12 +52,17 @@ export default function BpmDisplay() {
 
       {/* BPM Slider */}
       <input
+        id="bpm-slider"
         type="range"
         min={MIN_BPM}
         max={MAX_BPM}
         value={masterBpm}
         onChange={(e) => setMasterBpm(Number(e.target.value))}
-        className="w-72 h-1 bg-border rounded-full appearance-none cursor-pointer
+        aria-label="Master BPM slider"
+        aria-valuenow={masterBpm}
+        aria-valuemin={MIN_BPM}
+        aria-valuemax={MAX_BPM}
+        className="w-56 sm:w-72 h-1 bg-border rounded-full appearance-none cursor-pointer
                    [&::-webkit-slider-thumb]:appearance-none
                    [&::-webkit-slider-thumb]:w-4
                    [&::-webkit-slider-thumb]:h-4

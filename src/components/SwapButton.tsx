@@ -6,6 +6,7 @@ export default function SwapButton() {
 
   return (
     <button
+      id="swap-button"
       onClick={swapRatios}
       className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
                  bg-surface-light text-text-secondary border border-border

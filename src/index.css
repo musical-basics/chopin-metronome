@@ -1,9 +1,9 @@
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── Base Resets ── */
 @layer base {
@@ -26,6 +26,15 @@
     overflow-x: hidden;
   }
 
+  #root {
+    min-height: 100vh;
+    background: radial-gradient(
+      ellipse at 50% 0%,
+      rgba(212, 168, 83, 0.03) 0%,
+      transparent 60%
+    );
+  }
+
   /* Remove spinner arrows from number inputs */
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
@@ -34,6 +43,17 @@
   }
   input[type='number'] {
     -moz-appearance: textfield;
+  }
+
+  /* Visible focus ring for keyboard users (not mouse users) */
+  :focus-visible {
+    outline: 2px solid #D4A853;
+    outline-offset: 2px;
+  }
+
+  /* Remove default focus ring for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 }
 
@@ -60,5 +80,17 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #A0A0A0;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }

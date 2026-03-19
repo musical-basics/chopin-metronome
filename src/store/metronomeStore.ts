@@ -8,6 +8,7 @@ import {
   MIN_RATIO,
   MAX_RATIO,
 } from '../lib/constants';
+import { resetBeatCounters } from '../audio/audioEngine';
 
 interface MetronomeState {
   // ── State ──
@@ -60,22 +61,40 @@ export const useMetronomeStore = create<MetronomeState>((set) => ({
     set((state) => ({ masterBpm: clamp(state.masterBpm - 1, MIN_BPM, MAX_BPM) })),
 
   setLeftRatio: (ratio: number) =>
-    set(() => ({ leftRatio: clamp(Math.round(ratio), MIN_RATIO, MAX_RATIO) })),
+    set(() => {
+      resetBeatCounters('left');
+      return { leftRatio: clamp(Math.round(ratio), MIN_RATIO, MAX_RATIO) };
+    }),
 
   setRightRatio: (ratio: number) =>
-    set(() => ({ rightRatio: clamp(Math.round(ratio), MIN_RATIO, MAX_RATIO) })),
+    set(() => {
+      resetBeatCounters('right');
+      return { rightRatio: clamp(Math.round(ratio), MIN_RATIO, MAX_RATIO) };
+    }),
 
   incrementLeftRatio: () =>
-    set((state) => ({ leftRatio: clamp(state.leftRatio + 1, MIN_RATIO, MAX_RATIO) })),
+    set((state) => {
+      resetBeatCounters('left');
+      return { leftRatio: clamp(state.leftRatio + 1, MIN_RATIO, MAX_RATIO) };
+    }),
 
   decrementLeftRatio: () =>
-    set((state) => ({ leftRatio: clamp(state.leftRatio - 1, MIN_RATIO, MAX_RATIO) })),
+    set((state) => {
+      resetBeatCounters('left');
+      return { leftRatio: clamp(state.leftRatio - 1, MIN_RATIO, MAX_RATIO) };
+    }),
 
   incrementRightRatio: () =>
-    set((state) => ({ rightRatio: clamp(state.rightRatio + 1, MIN_RATIO, MAX_RATIO) })),
+    set((state) => {
+      resetBeatCounters('right');
+      return { rightRatio: clamp(state.rightRatio + 1, MIN_RATIO, MAX_RATIO) };
+    }),
 
   decrementRightRatio: () =>
-    set((state) => ({ rightRatio: clamp(state.rightRatio - 1, MIN_RATIO, MAX_RATIO) })),
+    set((state) => {
+      resetBeatCounters('right');
+      return { rightRatio: clamp(state.rightRatio - 1, MIN_RATIO, MAX_RATIO) };
+    }),
 
   toggleLeftMute: () =>
     set((state) => ({ leftMuted: !state.leftMuted })),
@@ -84,5 +103,8 @@ export const useMetronomeStore = create<MetronomeState>((set) => ({
     set((state) => ({ rightMuted: !state.rightMuted })),
 
   swapRatios: () =>
-    set((state) => ({ leftRatio: state.rightRatio, rightRatio: state.leftRatio })),
+    set((state) => {
+      resetBeatCounters('both');
+      return { leftRatio: state.rightRatio, rightRatio: state.leftRatio };
+    }),
 }));
